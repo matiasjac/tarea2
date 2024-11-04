@@ -9,6 +9,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
-        <exec.mainClass>com.mycompany.tarea1.Tarea1</exec.mainClass>
+        <exec.mainClass>analizadores.AnalizadorLexico</exec.mainClass>
     </properties>
 </project>

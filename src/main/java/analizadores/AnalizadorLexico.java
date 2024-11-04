@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.mycompany.tarea1;
+package analizadores;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +12,7 @@ import java.util.regex.*;
  *
  * @author Matias
  */
-public class Tarea1 {
+public class AnalizadorLexico {
       
        // Mapa para almacenar los tipos de token junto con sus patrones
     private static final Map<String, String> tokenPatterns = new HashMap<>();
@@ -50,7 +50,7 @@ public class Tarea1 {
         }
     }
 
-    private static String replaceTokens(String input) throws Exception {
+    public static String replaceTokens(String input) throws Exception {
         StringBuilder replacedContent = new StringBuilder();
 
         // Usar una expresión regular para encontrar todos los tokens válidos en el input
@@ -84,7 +84,27 @@ public class Tarea1 {
         return replacedContent.toString().trim();
     }
 
-    private static String obtenerToken(String token) throws Exception {
+
+    public static List<String> getTokens(String input) throws Exception {
+        List<String> tokens = new ArrayList<>();
+
+        // Usar una expresión regular para encontrar todos los tokens válidos en el input
+        String regex = String.join("|", tokenPatterns.keySet());
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            // Obtenemos el texto del token que coincide y su tipo
+            String matchedText = matcher.group();
+            String tokenType = obtenerToken(matchedText);
+
+            // Apilamos el tipo de token en la pila
+            tokens.add(tokenType);
+        }
+
+        return tokens;
+    }
+
+    public static String obtenerToken(String token) throws Exception {
         for (Map.Entry<String, String> entry : tokenPatterns.entrySet()) {
             String pattern = entry.getKey();
             // Verificar si el token coincide con el patrón
@@ -95,7 +115,7 @@ public class Tarea1 {
         throw new Exception("Error léxico. Token " + token + "invalido");
     }
 
-    private static void escribirArchivo(String outputFilePath, String outputContent) {
+    public static void escribirArchivo(String outputFilePath, String outputContent) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
             writer.write(outputContent);
             writer.newLine();
