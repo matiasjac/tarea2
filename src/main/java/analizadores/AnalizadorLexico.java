@@ -104,6 +104,26 @@ public class AnalizadorLexico {
         return tokens;
     }
 
+
+    public static List<Token> getTokensWithLexema(String input) throws Exception {
+        List<Token> tokens = new ArrayList<>();
+
+        // Usar una expresión regular para encontrar todos los tokens válidos en el input
+        String regex = String.join("|", tokenPatterns.keySet());
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            // Obtenemos el texto del token que coincide y su tipo
+            String matchedText = matcher.group();
+            String tokenType = obtenerToken(matchedText);
+
+            // Apilamos el tipo de token en la pila
+            tokens.add(new Token(tokenType, matchedText));
+        }
+
+        return tokens;
+    }
+
     public static String obtenerToken(String token) throws Exception {
         for (Map.Entry<String, String> entry : tokenPatterns.entrySet()) {
             String pattern = entry.getKey();
